@@ -1,5 +1,7 @@
 use cpu;
 
 fn main() {
-    cpu::run(&String::from("Stars [Sergey Naydenov, 2010].ch8"));
+  let mut emulator = cpu::new(&String::from("IBM Logo.ch8"));
+
+  emulator.run();
 }
