@@ -13,12 +13,12 @@ impl Display {
     for (i, v) in self.screen.iter().enumerate() {
       for (k, t) in self.screen[i].iter().enumerate() {
         let number = if *t {
-          7
+          "1"
         } else {
-          0
+          " "
         };
 
-        print!("{}, ", number);
+        print!("{} ", number);
       }
       println!();
     }
