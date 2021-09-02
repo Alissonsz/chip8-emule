@@ -25,7 +25,7 @@ impl Emulator {
     
     let mut counter = 0;
 
-    while counter < 10 {
+    while counter < 20 {
       println!("{}", self.pc);
       self.interpret_instruction(utils::combine_2bytes(self.memory[self.pc as usize], self.memory[(self.pc + 1) as usize]));
       counter += 1;
@@ -46,6 +46,7 @@ impl Emulator {
     self.pc += 2;
 
     match dec_instruction {
+      [0x0, 0x0, 0xE, 0x0] => { self.display.clear() },
       [0x1, x, y, z] => {self.pc = utils::combine_3nibbles(x, y, z); },
       [0x6, x, n, nn] => { 
           self.registers[x as usize] = utils::combine_2nibbles(n, nn); 
@@ -68,7 +69,7 @@ impl Emulator {
           sprites.push(*item);
         }
 
-        self.display.draw(x, y, sprites)
+        self.registers[0xF] = self.display.draw(x, y, sprites);
       },
       _ => println!("TEM AINDA NÃO MAS SE PÁ VAI TER")
     }
