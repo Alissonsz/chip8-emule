@@ -28,8 +28,8 @@ fn main() {
     process_events(&mut window, &events);
     let mut translated = unsafe { translate_geo(&mut vertices, translate)};
     let mut translated2 = unsafe { translate_geo(&mut vertices, 0.5)};
-    renderer::drawRect(&mut translated);
-    renderer::drawRect(&mut translated2);
+    renderer::draw_rect(&mut translated);
+    renderer::draw_rect(&mut translated2);
     renderer::swap_buffer(&mut window);
   };
 }

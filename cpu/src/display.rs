@@ -1,5 +1,5 @@
 pub struct Display {
-  screen: [[bool; 64]; 32]
+  pub screen: [[bool; 64]; 32]
 }
 
 impl Display {
@@ -25,9 +25,6 @@ impl Display {
   }
 
   pub fn draw(&mut self, x: u8, y: u8, t: Vec<u8>) -> u8 {
-    println!("x: {}, y: {}", x, y);
-    println!("{:?}", t);
-
     let mut changed = 0;
     
     for (index, sprite) in t.iter().enumerate() {
@@ -40,16 +37,29 @@ impl Display {
         if cur_value != updated_value {
           changed = 1;
         }
-        //println!("{}: {}", i, c);
       }
-      
     }
-    self.print();
+ 
     changed
-    //println!("{:?}", self.screen);
   }
 
   pub fn clear(&mut self) {
     self.screen = [[false; 64]; 32];
+  }
+
+  pub fn get_display_as_u8_texture(&self) -> Vec<u8> {
+    let mut tex = Vec::new();
+    
+    for (i, v) in self.screen.iter().enumerate() {
+      for (j, t) in v.iter().enumerate() {
+        if *t {
+          tex.push(255);
+        } else {
+          tex.push(0);
+        }
+      }
+    }
+
+    tex
   }
 }

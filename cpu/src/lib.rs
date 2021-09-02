@@ -17,22 +17,15 @@ pub struct Emulator {
   pc: u16,
   sp: u8,
   stack: [u16; 16],
-  display: Display
+  pub display: Display
 }
 
 impl Emulator {
-  pub fn run(&mut self) {
+  pub fn run_cicle(&mut self) {
+   
+    self.interpret_instruction(utils::combine_2bytes(self.memory[self.pc as usize], self.memory[(self.pc + 1) as usize]));
     
-    let mut counter = 0;
-
-    while counter < 20 {
-      println!("{}", self.pc);
-      self.interpret_instruction(utils::combine_2bytes(self.memory[self.pc as usize], self.memory[(self.pc + 1) as usize]));
-      counter += 1;
-    }
   }
-    
-  
 
   fn show_memory(&self) {
     for item in self.memory[512..540].iter() {
@@ -94,7 +87,7 @@ pub fn new(filename: &String) -> Emulator {
     memory[index + 0x50] = *value;
   }
 
-  let mut e = Emulator {
+  let e = Emulator {
     memory: memory,
     registers: [0; 16],
     i: 0,
