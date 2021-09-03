@@ -29,7 +29,13 @@ impl Display {
     
     for (index, sprite) in t.iter().enumerate() {
       let bin_sprite = format!("{:08b}", sprite);
+      if (y + (index as u8)) >= 32 {
+        break;
+      }
       for (i, c) in bin_sprite.chars().map(|char| char == '1').enumerate() {
+        if (x + (i as u8)) >= 64 {
+          break;
+        }
         let cur_value = self.screen[(y + (index as u8)) as usize][(x + (i as u8)) as usize];
         self.screen[(y + (index as u8)) as usize][(x + (i as u8)) as usize] =  cur_value ^ c;
         let updated_value = self.screen[(y + (index as u8)) as usize][(x + (i as u8)) as usize];
