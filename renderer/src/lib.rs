@@ -23,8 +23,8 @@ mod shader;
 use shader::Shader;
 
 // settings
-const SCR_WIDTH: u32 = 128;
-const SCR_HEIGHT: u32 = 64;
+const SCR_WIDTH: u32 = 400;
+const SCR_HEIGHT: u32 = 200;
 
 pub struct Renderer {
   shader: Shader
@@ -107,11 +107,11 @@ impl Renderer {
       gl::GenTextures(1, &mut tex); 
       gl::BindTexture(gl::TEXTURE_2D, tex);
 
-      gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_WRAP_S, gl::REPEAT as i32); // set texture wrapping to gl::REPEAT (default wrapping method)
-      gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_WRAP_T, gl::REPEAT as i32);
+      gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_WRAP_S, gl::NEAREST as i32); // set texture wrapping to gl::REPEAT (default wrapping method)
+      gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_WRAP_T, gl::NEAREST as i32);
       // set texture filtering parameters
-      gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_MIN_FILTER, gl::LINEAR as i32);
-      gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_MAG_FILTER, gl::LINEAR as i32);
+      gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_MIN_FILTER, gl::NEAREST as i32);
+      gl::TexParameteri(gl::TEXTURE_2D, gl::TEXTURE_MAG_FILTER, gl::NEAREST as i32);
 
       gl::TexImage2D(
         gl::TEXTURE_2D, 

@@ -33,10 +33,18 @@ fn main() {
       framecount = 0;
       last_time = time;
     }
+
+    
     
     glfw.poll_events();
     process_events(&mut window, &events, &mut emulator);
-    emulator.run_cicle();
+
+    for i in 0..7 {
+      emulator.run_cicle();
+    }
+
+    emulator.decrement_timer();
+    
     renderer.set_texture(&mut emulator.display.get_display_as_u8_texture());
     renderer.draw_with_texure(&mut vertices);
     renderer::swap_buffer(&mut window);

@@ -42,7 +42,6 @@ impl Emulator {
     let dec_instruction = instructions::transform_array(instruction);
 
     self.pc += 2;
-    self.decrement_timer();
 
     match dec_instruction {
       [0x0, 0x0, 0xE, 0x0] => { self.display.clear() },
