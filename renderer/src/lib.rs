@@ -23,8 +23,8 @@ mod shader;
 use shader::Shader;
 
 // settings
-const SCR_WIDTH: u32 = 800;
-const SCR_HEIGHT: u32 = 400;
+const SCR_WIDTH: u32 = 128;
+const SCR_HEIGHT: u32 = 64;
 
 pub struct Renderer {
   shader: Shader

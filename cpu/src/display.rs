@@ -40,7 +40,7 @@ impl Display {
         self.screen[(y + (index as u8)) as usize][(x + (i as u8)) as usize] =  cur_value ^ c;
         let updated_value = self.screen[(y + (index as u8)) as usize][(x + (i as u8)) as usize];
 
-        if cur_value != updated_value {
+        if (cur_value == true) && (updated_value == false) {
           changed = 1;
         }
       }
