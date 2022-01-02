@@ -1,3 +1,4 @@
+use std::io::{stdin, stdout, Read, Write};
 use renderer;
 use renderer::Renderer;
 
@@ -24,30 +25,31 @@ fn main() {
   let mut emulator = cpu::new(&String::from("tetris.ch8"));
   let mut last_time = glfw.get_time();
   let mut framecount = 0;
+
   while !window.should_close() {
     let time = glfw.get_time();
     framecount += 1;
-
+    let last = emulator.keypad.get_key(5);
     if time - last_time >= 1.0 {
       //println!("{}", framecount);
       framecount = 0;
       last_time = time;
     }
 
-    
-    
     glfw.poll_events();
+    
     process_events(&mut window, &events, &mut emulator);
-
-    for i in 0..7 {
+    for _ in 0..20 {
       emulator.run_cicle();
     }
-
     emulator.decrement_timer();
     
     renderer.set_texture(&mut emulator.display.get_display_as_u8_texture());
     renderer.draw_with_texure(&mut vertices);
     renderer::swap_buffer(&mut window);
+    
+    //emulator.show_registers();
+    //println!("-------------------------------------------------------")
   };
 }
 
@@ -77,11 +79,9 @@ fn process_events(window: &mut glfw::Window, events: &Receiver<(f64, glfw::Windo
             emulator.keypad.set_unpressed(keypad::Key::Key3);
           }
           glfw::WindowEvent::Key(Key::Q, _, Action::Press, _) => {
-            println!("Aperto");
             emulator.keypad.set_pressed(keypad::Key::Key4);
           }
           glfw::WindowEvent::Key(Key::Q, _, Action::Release, _) => {
-            println!("Solto");
             emulator.keypad.set_unpressed(keypad::Key::Key4);
           }
           glfw::WindowEvent::Key(Key::W, _, Action::Press, _) => {
@@ -113,6 +113,9 @@ fn process_events(window: &mut glfw::Window, events: &Receiver<(f64, glfw::Windo
           }
           glfw::WindowEvent::Key(Key::D, _, Action::Release, _) => {
             emulator.keypad.set_unpressed(keypad::Key::Key9);
+          }
+          glfw::WindowEvent::Key(Key::Space, _, Action::Press, _) => {
+
           }
           _ => {}
       }

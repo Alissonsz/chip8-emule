@@ -38,6 +38,15 @@ impl Emulator {
     }
   }
 
+  pub fn show_registers(&self) {
+    for item in self.registers.iter() {
+      println!("{:#02x}", item);
+    }
+    println!("PC: {:#02x}", self.pc);
+    println!("SP: {:#02x}", self.sp);
+    println!("I: {:#02x}", self.i);
+  }
+
   fn interpret_instruction(&mut self, instruction: u16) {
     let dec_instruction = instructions::transform_array(instruction);
 
@@ -76,6 +85,9 @@ impl Emulator {
       [0x8, x, y, 0x2] => {
         self.registers[x as usize] = self.registers[x as usize] & self.registers[y as usize];
       },
+      [0x8, x, y, 0x3] => {
+        self.registers[x as usize] = self.registers[x as usize] ^ self.registers[y as usize];
+      },
       [0x8, x, y, 0x4] => {
         let (sum, carry) = self.registers[x as usize].overflowing_add(self.registers[y as usize]);
         self.registers[x as usize] = sum;
@@ -83,8 +95,12 @@ impl Emulator {
       },
       [0x8, x, y, 0x5] => {
         let (value, carry) = self.registers[x as usize].overflowing_sub(self.registers[y as usize]);
+        self.registers[0xF] = (self.registers[x as usize] > self.registers[y as usize]) as u8;
         self.registers[x as usize] = value;
-        self.registers[0xF] = (!carry) as u8;
+      },
+      [0x8, x, y, 0x6] => {
+        self.registers[0xF] = self.registers[x as usize] & 0x1;
+        self.registers[x as usize] = self.registers[x as usize] >> 1;
       },
       [0x9, x, y, 0x0] => {
         if self.registers[x as usize] != self.registers[y as usize] {
@@ -129,9 +145,9 @@ impl Emulator {
       [0xF, x, 0x0, 0x7] => { self.registers[x as usize] = self.delay_timer; },
       [0xF, x, 0x1, 0x5] => { self.delay_timer = self.registers[x as usize]; },
       [0xF, x, 0x1, 0xE] => {
-        let (value, _) = self.i.overflowing_add(self.registers[x as usize] as u16);
+        let (value, carry) = self.i.overflowing_add(self.registers[x as usize] as u16);
         self.i = value;
-
+        self.registers[0xF] = carry as u8;
       },
       [0xf, x, 0x2, 0x9] => { self.i = (self.registers[x as usize] as u16 * 5) + 0x50; },
       [0xF, x, 0x3, 0x3] => {
@@ -146,11 +162,11 @@ impl Emulator {
         }
       },
       [0xf, x, 0x6, 0x5] => {
-        for i in 0..x {
+        for i in 0..=x {
           self.registers[i as usize] = self.memory[(self.i + (i as u16)) as usize];
         }
       },
-      [_, _, _, _] => { println!("{:#02x}: TEM AINDA NÃO MAS SE PÁ VAI TER", instruction); }
+      [_, _, _, _] => { println!("{:#02x}: Not implemented yet, but someday it'll be", instruction); }
     }
   }
 
