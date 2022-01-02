@@ -157,7 +157,7 @@ impl Emulator {
         self.memory[(self.i + 2) as usize] = value % 10;
       },
       [0xf, x, 0x5, 0x5] => {
-        for i in 0..x {
+        for i in 0..=x {
           self.memory[(self.i + i as u16) as usize] = self.registers[i as usize];
         }
       },
