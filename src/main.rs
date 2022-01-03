@@ -22,7 +22,7 @@ fn main() {
     -2.0, -1.20, 0.0, 0.0, 1.0
   ];
 
-  let mut emulator = cpu::new(&String::from("tetris.ch8"));
+  let mut emulator = cpu::new(&String::from("Stars [Sergey Naydenov, 2010].ch8"));
   let mut last_time = glfw.get_time();
   let mut framecount = 0;
 

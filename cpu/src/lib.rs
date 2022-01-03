@@ -72,6 +72,9 @@ impl Emulator {
           self.pc += 2;
         }
       },
+      [0x5, x, y, 0x0] => {
+        if self.registers[x as usize] == self.registers[y as usize] { self.pc += 2; }
+      },
       [0x6, x, n, nn] => { 
           self.registers[x as usize] = utils::combine_2nibbles(n, nn); 
       },
