@@ -1,6 +1,6 @@
 # Chip8 emulator
 
-A Chip8 emulator wrote in [rust](https://www.rust-lang.org/), using [OpenGL](https://www.opengl.org/) for graphics rendering and [GLFW](https://www.glfw.org/) for creating a context to OpenGL and handle user input.
+A Chip8 emulator written in [rust](https://www.rust-lang.org/), using [OpenGL](https://www.opengl.org/) for graphics rendering and [GLFW](https://www.glfw.org/) for creating a OpenGL context and handle user input.
 
 ## Modules
 ##### CPU
